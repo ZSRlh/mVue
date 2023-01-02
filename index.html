@@ -5,12 +5,32 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <script src="./dist/vue.js"></script>
-  <!-- <script src="./node_modules/vue/dist/vue.js"></script> -->
+  <script src="./dist/mVue.js"></script>
+  <script src="./node_modules/vue/dist/vue.js"></script>
 </head>
 <body>
   <script>
-    console.log(Vue)
+    const options = {
+      data() {
+        return {
+          message: 'hello world',
+          person: {
+            name: 'zsr',
+            age: 25,
+          },
+          arr: [
+            1,
+            'aaa',
+            { c: 3 }
+          ]
+        }
+      }
+    }
+    const mVm = new mVue(options);
+    const vm = new Vue(options);
+
+    console.log('mVue', mVm);
+    console.log('Vue', vm);
   </script>
 </body>
 </html>

@@ -1,16 +1,9 @@
+import { initMixin } from "./init";
 
-class Vue {
-  value = 9;
-  constructor (options) {
-    this.opt = options;
-    this.speak = function () {
-      console.log(this.opt, this.value)
-    }
-  };
-  static vm = 1;
-  static say() {
-    console.log('zsr', this.vm);
-  }
+function mVue (option) {
+  this._init(option);
 }
 
-export default Vue;
+initMixin(mVue);
+
+export default mVue;

@@ -1,10 +1,13 @@
 import babel from 'rollup-plugin-babel';
+import alias from 'rollup-plugin-alias';
+
+const path = require('path');
 
 export default {
   input: './src/index.js',
   output: {
-    file: './dist/vue.js',
-    name: 'Vue',
+    file: './dist/mVue.js',
+    name: 'mVue',
     // 打包格式：esm | es6 | commonjs | iife(自执行函数) | umd
     format: 'umd',
     sourcemap: true,
@@ -12,6 +15,9 @@ export default {
   plugins: [
     babel({
       exclude: 'node_modules/**', // 排除node_modules中的所有文件
+    }),
+    alias({
+      "@": path.resolve(__dirname, 'src')
     })
   ]
 }
