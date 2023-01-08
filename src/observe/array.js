@@ -1,4 +1,4 @@
-import { def } from '@/utils/index';
+import { def } from '../utils';
 
 const arrayProto = Array.prototype;
 

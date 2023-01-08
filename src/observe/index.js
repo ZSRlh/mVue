@@ -1,4 +1,4 @@
-import { def } from '@/utils/index';
+import { def, hasOwn } from '../utils';
 import { arrayMethod } from './array';
 
 function protoAugment (target, proto) {
@@ -20,6 +20,7 @@ function defineReactive(target, key) {
     set (newValue) {
       console.log('in Observer set');
       if (newValue === value) return;
+      childObj = observe(newValue);
       value = newValue;
     }
   })
@@ -55,8 +56,14 @@ class Observer {
 
 export function observe (data) {
 
+  // 如果不是对象就不用代理了
   if (typeof data !== 'object' || data == null) {
     return;
+  }
+
+  // 如果被代理过就不用重复代理了
+  if (hasOwn(data, '__ob__') && data.__ob__ instanceof Observer) {
+    return data.__ob__;
   }
   
   return new Observer(data);
