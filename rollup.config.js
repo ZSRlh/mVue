@@ -1,5 +1,6 @@
 import babel from 'rollup-plugin-babel';
 import alias from 'rollup-plugin-alias';
+import nodeResolve from '@rollup/plugin-node-resolve';
 
 const path = require('path');
 
@@ -16,8 +17,10 @@ export default {
     babel({
       exclude: 'node_modules/**', // 排除node_modules中的所有文件
     }),
+    nodeResolve(),
+    // TODO: rollup-plugin-alias 和 rollup-plugin-node-resolve 貌似不能同时用,
     alias({
-      "@": path.resolve(__dirname, 'src')
-    })
+      "@": path.resolve('src')
+    }),
   ]
 }
