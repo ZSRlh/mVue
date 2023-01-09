@@ -1,3 +1,5 @@
+import { AST_NODE_TYPE } from '../constants';
+
 const ncname = `[a-zA-Z_][\\-\\.0-9_a-zA-Z]*`;
 const qnameCapture = `((?:${ncname}\\:)?${ncname})`;
 
@@ -43,8 +45,6 @@ const conditionalComment = /^<!\[/;
  */
 export function parseHTML (html) {
 
-  const ELEMENT_TYPE = 1;
-  const TEXT_TYPE = 3;
   const stack = [];
   let currentParent;  // 指向栈中的最后一个
   let root;
@@ -52,7 +52,7 @@ export function parseHTML (html) {
   function createASTElement (tag, attrs) {
     return {
       tag,
-      type: ELEMENT_TYPE,
+      type: AST_NODE_TYPE.ELEMENT_TYPE,
       children: [],
       attrs,
       parent: null,
@@ -115,7 +115,7 @@ export function parseHTML (html) {
 
   function chars (text) {
     currentParent.children.push({
-      type: TEXT_TYPE,
+      type: AST_NODE_TYPE.TEXT_TYPE,
       text,
       parent: currentParent,
     })
