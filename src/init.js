@@ -1,5 +1,6 @@
 import { initState } from "./state";
 import { compileToFunction } from './compiler'
+import { mountComponent } from "./lifecycle";
 
 export function initMixin (mVue) {
   mVue.prototype._init = function (options) {
@@ -16,7 +17,6 @@ export function initMixin (mVue) {
     const vm = this;
     const opts = vm.$options;
     el = document.querySelector(el);
-
 
     if (!opts.render) {
       let template;
@@ -35,7 +35,6 @@ export function initMixin (mVue) {
         opts.render = render;
       }
     }
-
-    // opts.render();
+    mountComponent(vm, el)
   }
 }

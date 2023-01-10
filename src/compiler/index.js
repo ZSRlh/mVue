@@ -14,9 +14,11 @@ function genProps (attrs) {
     // TODO: 为啥专门处理
     if (attr.name === 'style') {
       const obj = {};
-      attr.value.split(';').forEach(item => {
-        const [key, value] = item.split(':');
-        obj[key] = value;
+      attr.value.split(';').filter(item => {
+        return item && item.trim();
+      }).forEach(item => {
+        const [key, value] = item.trim().split(':');
+        obj[key.trim()] = value.trim();
         attr.value = obj;
       })
     }
@@ -46,7 +48,7 @@ function genChildren (children) {
 function codegen(ast) {
   // _c(tag, attrs, children)
   let code = `_c(
-    ${ast.tag ? `${ast.tag}` : 'null'},
+    ${ast.tag ? `'${ast.tag}'` : 'null'},
     ${ast.attrs ? genProps(ast.attrs) : 'null'},
     ${ast.children ? genChildren(ast.children) : 'null'}
   )`;
@@ -54,7 +56,11 @@ function codegen(ast) {
 }
 
 export function compileToFunction (template) {
-  let ast = parseHTML(template);
-  let code = codegen(ast);
-  console.log(code)
+  const ast = parseHTML(template);
+  const code = codegen(ast);
+  /**
+   * 模版引擎的实现原理: with + new Function
+   */
+  let render = new Function(`with(this){return ${code}}`);
+  return render;
 }
