@@ -4,7 +4,7 @@ import { parseText } from "./text-paser";
 
 /**
  * 生成_c函数的属性参数
- * @param {属性} attrs 
+ * @param {Array} attrs 
  * @returns 属性字符串
  */
 function genProps (attrs) {
@@ -29,7 +29,7 @@ function genProps (attrs) {
 
 /**
  * 生成_c函数的子元素参数
- * @param {children} children 
+ * @param {Array} children 
  * @returns 子元素字符串
  */
 function genChildren (children) {

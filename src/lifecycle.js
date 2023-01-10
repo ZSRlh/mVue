@@ -1,23 +1,33 @@
 import { createElementVNode, createTextVNode } from "./vdom"
 
 export function initLifeCycle (mVue) {
-  mVue.prototype._update = function () {
+  /**
+   * 将虚拟DOM转换成真实DOM
+   * @param {Object} vnode 虚拟DOM
+   */
+  mVue.prototype._update = function (vnode) {
 
   }
 
+  // _c(tag, props, children)
   mVue.prototype._c = function () {
     return createElementVNode(this, ...arguments);
   }
 
+  // _v(text)
   mVue.prototype._v = function () {
     return createTextVNode(this, ...arguments);
   }
 
+  // _s(variable name)
   mVue.prototype._s = function (text) {
     return JSON.stringify(text);
   }
 
-
+  /**
+   * 将render函数转化成虚拟DOM
+   * @returns Virtual DOM
+   */
   mVue.prototype._render = function () {
     const vm = this;
     return vm.$options.render.call(vm);

@@ -61,7 +61,7 @@ export function parseHTML (html) {
 
   /**
    * 移动解析指针
-   * @param { 移动长度 } n 
+   * @param {number} n 
    */
   function advance (n) {
     html = html.substring(n);
