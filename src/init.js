@@ -10,6 +10,12 @@ export function initMixin (mVue) {
 
     if (options.el) {
       vm.$mount(options.el);
+      setTimeout(() => {
+        vm.name = 'lh';
+        vm.age = 18
+        console.log('first')
+        vm._update(vm._render());
+      }, 1000);
     }
   }
 
