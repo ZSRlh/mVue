@@ -10,6 +10,7 @@
 
 import { initMixin } from "./init";
 import { initLifeCycle } from "./lifecycle";
+import { nextTick } from "./utils";
 
 function mVue (option) {
   this._init(option);
@@ -17,5 +18,7 @@ function mVue (option) {
 
 initMixin(mVue);
 initLifeCycle(mVue);
+
+mVue.nextTick = nextTick;
 
 export default mVue;

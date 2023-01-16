@@ -1,4 +1,5 @@
 import Dep from "./dep";
+import { nextTick } from "../utils";
 
 let id  = 0;
 
@@ -51,7 +52,7 @@ function flushSchedulerQueue () {
 
 /**
  * 实现异步更新
- * - 多次修改变量合并为一次渲染(_update)
+ * - 多次修改变量合并为一次渲染(_update)，类似于react的事件合成机制
  * @param {Watcher} watcher 
  */
 function queueWatcher (watcher) {
@@ -62,7 +63,7 @@ function queueWatcher (watcher) {
 
     if (!watching) {
       watching = true;
-      Promise.resolve().then(flushSchedulerQueue);
+      nextTick(flushSchedulerQueue);
     }
   }
 }

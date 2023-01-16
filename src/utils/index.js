@@ -1,3 +1,5 @@
+export * from "./next-tick";
+
 export function def (obj, key, value, enumerable) {
   Object.defineProperty(obj, key, {
     value,
