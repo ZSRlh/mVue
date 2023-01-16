@@ -1,5 +1,6 @@
 import { def, hasOwn } from '../utils';
 import { arrayMethod } from './array';
+import Dep from './dep';
 
 function protoAugment (target, proto) {
   target.__proto__ = proto;
@@ -7,6 +8,7 @@ function protoAugment (target, proto) {
 
 function defineReactive(target, key) {
   let value = target[key];
+  const dep = new Dep();
 
   let childObj = observe(value);
 
@@ -14,14 +16,17 @@ function defineReactive(target, key) {
     enumerable: true,
     configurable: true,
     get () {
-      console.log('in Observer get');
+      if (Dep.target) {
+        // 依赖收集
+        dep.depend(); // 属性的dep依赖收集器)记住这个watcher(组件对应watcher)
+      }
       return value;
     },
     set (newValue) {
-      console.log('in Observer set');
       if (newValue === value) return;
       childObj = observe(newValue);
       value = newValue;
+      dep.notify();
     }
   })
 }
