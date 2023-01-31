@@ -88,7 +88,11 @@ export function initLifeCycle (mVue) {
 
   // _s(variable name)
   mVue.prototype._s = function (text) {
-    return text.toString();
+    // return text.toString();
+    // TODO: 这里用JSON.stringify或者toString都有问题
+    // 用 JSON.stringify 字符串变量会带双引号，用toString 对象会变成[object Object]
+    // 源码中渲染对象（也可能是数组中的对象）的时候 是对对象中的每个属性递归地调用了 render 函数，才得以渲染出对象原本的样子（个人理解
+    return JSON.stringify(text);
   }
 
   /**

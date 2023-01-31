@@ -14,6 +14,9 @@
       {{ name }} {{ name }}
     </div>
     <span>{{ age }}</span>
+    <div>{{ arr }}</div>
+    <div>{{ arr[3].a }}</div>
+    <div>{{ person }}</div>
   </div>
   <script>
     const options = {
@@ -28,36 +31,21 @@
             name: 'zsr',
             age: 25,
           },
-          arr: [
-            1,
-            'aaa',
-            { c: 3 }
-          ]
+          arr: [1, 2 ,3, ['a'], { aa: 7 }]
         }
       },
-      // created() {
-      //   console.log(this.age, this.name, 'in')
-      // }
-      created() {
-        console.log(this.name);
-      }
     }
-    mVue.mixin({
-      created() {
-        console.log(this.age, this.name, 'mixin')
-      }
-    })
-
-    mVue.mixin({
-      created() {
-        console.log(this.age, this.name, 'mixin2')
-      }
-    })
     // const vm = new Vue(options);
     const mVm = new mVue(options);
 
     console.log('mVue', mVm);
     // console.log('Vue', vm);
+    // mVm.arr[3].a = 100
+    setTimeout(() => {
+      // mVm.person.a = 99
+      mVm.arr[3].push('b')
+      // mVm.arr[4].aa = 8
+    }, 500);
   </script>
 </body>
 </html>

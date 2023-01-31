@@ -43,6 +43,7 @@ methodsToPatch.forEach(function (method) {
     if (inserted) {
       observer.observeArray(inserted);
     }
+    observer.dep.notify();
     return result;
   })
 })
