@@ -1,13 +1,20 @@
 import { initState } from "./state";
 import { compileToFunction } from './compiler'
-import { mountComponent } from "./lifecycle";
-import { nextTick } from "./utils";
+import { callHook, initLifeCycle, mountComponent } from "./lifecycle";
+import { mergeOptions } from "./utils";
 
 export function initMixin (mVue) {
   mVue.prototype._init = function (options) {
     const vm = this;
-    vm.$options = options;
+    vm.$options = mergeOptions(
+      this.constructor.options,
+      options
+    );
+
+    initLifeCycle(mVue);
+    callHook(vm, 'beforeCreate');
     initState(vm);
+    callHook(vm, 'created');
 
     if (options.el) {
       vm.$mount(options.el);

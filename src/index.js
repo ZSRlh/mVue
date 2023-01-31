@@ -9,16 +9,20 @@
  */
 
 import { initMixin } from "./init";
-import { initLifeCycle } from "./lifecycle";
-import { nextTick } from "./utils";
+import { mergeOptions, nextTick } from "./utils";
 
 function mVue (option) {
   this._init(option);
 }
 
 initMixin(mVue);
-initLifeCycle(mVue);
 
 mVue.nextTick = nextTick;
+
+mVue.options = {};
+mVue.mixin = function (mixin) {
+  this.options = mergeOptions(this.options, mixin);
+  return this;
+}
 
 export default mVue;

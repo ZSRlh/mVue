@@ -115,4 +115,13 @@ export function mountComponent (vm, el) {
   }
 
   const watcher = new Watcher(vm, updateComponent);
-} 
+}
+
+export function callHook (vm, hook) {
+  const handlers = vm.$options[hook];
+  if (handlers) {
+    for (let i = 0; i < handlers.length; i++) {
+      handlers[i].call(vm);
+    }
+  }
+}

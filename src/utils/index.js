@@ -1,4 +1,5 @@
 export * from "./next-tick";
+export * from "./options";
 
 export function def (obj, key, value, enumerable) {
   Object.defineProperty(obj, key, {

@@ -34,10 +34,27 @@
             { c: 3 }
           ]
         }
+      },
+      // created() {
+      //   console.log(this.age, this.name, 'in')
+      // }
+      created() {
+        console.log(this.name);
       }
     }
-    const mVm = new mVue(options);
+    mVue.mixin({
+      created() {
+        console.log(this.age, this.name, 'mixin')
+      }
+    })
+
+    mVue.mixin({
+      created() {
+        console.log(this.age, this.name, 'mixin2')
+      }
+    })
     // const vm = new Vue(options);
+    const mVm = new mVue(options);
 
     console.log('mVue', mVm);
     // console.log('Vue', vm);
