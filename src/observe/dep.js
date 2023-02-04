@@ -24,4 +24,14 @@ class Dep {
 
 Dep.target = null;
 
+const stack = [];
+export function pushTarget (target) {
+  stack.push(target);
+  Dep.target = target;
+}
+export function popTarget () {
+  stack.pop();
+  Dep.target = stack[stack.length - 1];
+}
+
 export default Dep;

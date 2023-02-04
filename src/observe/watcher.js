@@ -1,4 +1,4 @@
-import Dep from "./dep";
+import { popTarget, pushTarget } from "./dep";
 import { nextTick } from "../utils";
 
 let id  = 0;
@@ -14,9 +14,9 @@ class Watcher {
     this.get();
   }
   get () {
-    Dep.target = this;
+    pushTarget(this);
     this.getter();
-    Dep.target = null;
+    popTarget();
   }
   addDep (dep) {
     const id = dep.id;
