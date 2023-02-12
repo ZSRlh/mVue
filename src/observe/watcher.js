@@ -5,18 +5,30 @@ let id  = 0;
 
 class Watcher {
   constructor (vm, fn, option, isRenderWatcher) {
+    this.vm = vm;
+    if (isRenderWatcher) {
+      vm._watcher = this;
+    }
+
     this.id = id++;
     this.deps = [];
     this.depIds = new Set();
-
-
     this.getter = fn;
-    this.get();
+
+    if (option) {
+      this.lazy = option.lazy;
+    }
+
+    this.dirty = this.lazy; // 缓存值
+
+    this.value = this.lazy ? undefined : this.get();
+
   }
   get () {
     pushTarget(this);
-    this.getter();
+    const value = this.getter.call(this.vm);
     popTarget();
+    return value;
   }
   addDep (dep) {
     const id = dep.id;
@@ -28,13 +40,30 @@ class Watcher {
   }
 
   update () {
-    console.log('watcher update')
-    queueWatcher(this);
+    if (this.lazy) {
+      // 如果是计算属性，依赖的值变化了，就需要让dirty变为true，保证更新
+      this.dirty = true;
+    } else {
+      queueWatcher(this);
+    }
   }
 
   run () {
     console.log('update')
     this.get();
+  }
+
+  evaluate () {
+    // 获取get执行结果的返回值，取消脏值标记
+    this.value = this.get();
+    this.dirty = false;
+  }
+
+  depend () {
+    let i = this.deps.length;
+    while (i--) {
+      this.deps[i].depend();
+    }
   }
 }
 

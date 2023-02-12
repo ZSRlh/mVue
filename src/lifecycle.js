@@ -118,7 +118,7 @@ export function mountComponent (vm, el) {
     vm._update(vm._render());
   }
 
-  const watcher = new Watcher(vm, updateComponent);
+  const watcher = new Watcher(vm, updateComponent, undefined, true);
 }
 
 export function callHook (vm, hook) {

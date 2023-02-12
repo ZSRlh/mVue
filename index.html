@@ -15,8 +15,8 @@
     </div>
     <span>{{ age }}</span>
     <div>{{ arr }}</div>
-    <div>{{ arr[3].a }}</div>
     <div>{{ person }}</div>
+    <div>{{ fullName }} {{ fullName }}</div>
   </div>
   <script>
     const options = {
@@ -37,10 +37,22 @@
         }
       },
       computed: {
+        aAge() {
+          return this.age;
+        },
         // 计算属性依赖的值变化才会执行 脏值检测
         fullName() {
-          return this.firstName + ' ' + this.lastName;
-        }
+          return this.firstName + ' ' + this.lastName + this.age;
+        },
+        // fullName: {
+        //   get () {
+        //     console.log('get computed');
+        //     return this.firstName + ' ' + this.lastName;
+        //   },
+        //   set (newVal) {
+        //     console.log(newVal);
+        //   }
+        // }
       }
     }
     // const vm = new Vue(options);
@@ -53,6 +65,7 @@
       // mVm.person.a = 99
       // mVm.arr[3].push('b')
       // mVm.arr[4].aa = 8
+      mVm.age = 9999
     }, 500);
   </script>
 </body>
