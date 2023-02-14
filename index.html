@@ -53,10 +53,20 @@
         //     console.log(newVal);
         //   }
         // }
+      },
+      // 最终会调用vm.$watch方法
+      watch: {
+        age (newValue, value) {
+          console.log(newValue, value)
+        }
       }
     }
     // const vm = new Vue(options);
     const mVm = new mVue(options);
+    mVm.$watch('fullName', (nv, v) => {
+
+      console.log('first', nv, v)
+    })
 
     // console.log('mVue', mVm);
     // console.log('Vue', vm);

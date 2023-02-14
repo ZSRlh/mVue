@@ -9,6 +9,7 @@
  */
 
 import { initMixin } from "./init";
+import { stateMixin } from "./state";
 import { mergeOptions, nextTick } from "./utils";
 
 function mVue (option) {
@@ -16,6 +17,7 @@ function mVue (option) {
 }
 
 initMixin(mVue);
+stateMixin(mVue);
 
 mVue.nextTick = nextTick;
 

@@ -1,10 +1,10 @@
 import { popTarget, pushTarget } from "./dep";
-import { nextTick } from "../utils";
+import { isObject, nextTick, noop, parsePath } from "../utils";
 
 let id  = 0;
 
 class Watcher {
-  constructor (vm, fn, option, isRenderWatcher) {
+  constructor (vm, expOrFn, cb, options, isRenderWatcher) {
     this.vm = vm;
     if (isRenderWatcher) {
       vm._watcher = this;
@@ -13,10 +13,22 @@ class Watcher {
     this.id = id++;
     this.deps = [];
     this.depIds = new Set();
-    this.getter = fn;
 
-    if (option) {
-      this.lazy = option.lazy;
+    // 调用这个函数会发生取值操作
+    if (typeof expOrFn === 'function') {
+      this.getter = expOrFn;
+    } else {
+      this.getter = parsePath(expOrFn);
+      if (!this.getter) {
+        this.getter = noop;
+      }
+    }
+    this.cb = cb;
+
+    if (options) {
+      this.lazy = options.lazy;
+      this.user = options.user;  // 是否是用户自定义wather
+      window.a = this;
     }
 
     this.dirty = this.lazy; // 缓存值
@@ -25,8 +37,9 @@ class Watcher {
 
   }
   get () {
+    const vm = this.vm;
     pushTarget(this);
-    const value = this.getter.call(this.vm);
+    const value = this.getter.call(vm, vm);
     popTarget();
     return value;
   }
@@ -49,8 +62,17 @@ class Watcher {
   }
 
   run () {
-    console.log('update')
-    this.get();
+    const value = this.get();
+    if (
+      value !== this.value ||
+      isObject(value) ||
+      this.deep
+    ) {
+      if (this.user) {
+        const oldValue = this.value;
+        this.cb.call(this.vm, value, oldValue);
+      }
+    }
   }
 
   evaluate () {

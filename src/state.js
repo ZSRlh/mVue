@@ -1,6 +1,7 @@
 import Dep from "./observe/dep";
 import { observe } from "./observe/index";
 import Watcher from "./observe/watcher";
+import { isPlainObject, noop } from "./utils";
 
 function proxy (target, srcKey, key) {
   Object.defineProperty(target, key, {
@@ -22,6 +23,9 @@ export function initState (vm) {
   }
   if (opts.computed) {
     initComputed(vm);
+  }
+  if (opts.watch) {
+    initWatch(vm);
   }
 }
 
@@ -52,7 +56,7 @@ function initComputed (vm) {
     const getter = typeof userDef === 'function' ? userDef : userDef.get;
 
     // 监控计算属性中get的变化，进行依赖收集，懒watcher，取值的时候再执行
-    watchers[key] = new Watcher(vm, getter, { lazy: true });
+    watchers[key] = new Watcher(vm, getter, noop, { lazy: true });
     
     defineComputed(vm, key, userDef);
     
@@ -85,5 +89,42 @@ function createComputedGetter (key) {
       watcher.depend();
     }
     return watcher.value;
+  }
+}
+
+function initWatch (vm) {
+  const watch = vm.$options.watch;
+  for (let key in watch) {
+    const handler = watch[key]; // watch可以是字符串方法名、数组、函数或对象
+    if (Array.isArray(handler)) {
+      for (let i = 0; i < handler.length; i++) {
+        createWatcher(vm, key, handler[i]);
+      }
+    } else {
+      createWatcher(vm, key, handler);
+    }
+  }
+}
+
+function createWatcher (vm, expOrFn, handler, options) {
+  if (isPlainObject(handler)) {
+    options = handler;
+    handler = handler.handler;
+  }
+  if (typeof handler === 'string') {
+    handler = vm[handler];
+  }
+  return vm.$watch(expOrFn, handler, options);
+}
+
+export function stateMixin (mVue) {
+  mVue.prototype.$watch = function (expOrFn, cb, options) {
+    const vm = this;
+    if (isPlainObject(cb)) {
+      return createWatcher(vm, expOrFn, cb, options);
+    }
+    options = options || {};
+    options.user = true;  // 表示是用户自己定义的watcher
+    const watcher = new Watcher(vm, expOrFn, cb, options, false);
   }
 }
