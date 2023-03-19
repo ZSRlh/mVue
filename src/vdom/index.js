@@ -22,3 +22,7 @@ export function createElementVNode (vm, tag, data = {}, ...children) {
 export function createTextVNode (vm, text) {
   return vnode(vm, undefined, undefined, undefined, undefined, text);
 }
+
+export function sameVnode (a, b) {
+  return a.tag === b.tag && a.key === b.key;
+}

@@ -10,7 +10,6 @@
 
 import { initMixin } from "./init";
 import { stateMixin } from "./state";
-import { mergeOptions, nextTick } from "./utils";
 
 function mVue (option) {
   this._init(option);
@@ -18,13 +17,5 @@ function mVue (option) {
 
 initMixin(mVue);
 stateMixin(mVue);
-
-mVue.nextTick = nextTick;
-
-mVue.options = {};
-mVue.mixin = function (mixin) {
-  this.options = mergeOptions(this.options, mixin);
-  return this;
-}
 
 export default mVue;

@@ -5,11 +5,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <script src="./dist/mVue.js"></script>
-  <script src="./node_modules/vue/dist/vue.js"></script>
 </head>
 <body>
-  <div id="app" style="color: red; background-color: blue;">
+  <script src="./dist/mVue.js"></script>
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <!-- <div id="app" style="color: red; background-color: blue;">
     <div style="color: yellow">
       {{ name }} {{ name }}
     </div>
@@ -17,6 +17,14 @@
     <div>{{ arr }}</div>
     <div>{{ person }}</div>
     <div>{{ fullName }} {{ fullName }}</div>
+  </div> -->
+  <div id="app" style="color: red; background-color: blue;">
+    <ul>
+      <li key="a">a</li>
+      <li key="b">b</li>
+      <li key="c">c</li>
+      <li key="d">d</li>
+    </ul>
   </div>
   <script>
     const options = {
@@ -55,28 +63,24 @@
         // }
       },
       // 最终会调用vm.$watch方法
-      watch: {
-        age (newValue, value) {
-          console.log(newValue, value)
-        }
-      }
+      // watch: {
+      //   age (newValue, value) {
+      //     console.log(newValue, value)
+      //   }
+      // }
     }
     // const vm = new Vue(options);
     const mVm = new mVue(options);
-    mVm.$watch('fullName', (nv, v) => {
-
-      console.log('first', nv, v)
-    })
 
     // console.log('mVue', mVm);
     // console.log('Vue', vm);
     // mVm.arr[3].a = 100
-    setTimeout(() => {
-      // mVm.person.a = 99
-      // mVm.arr[3].push('b')
-      // mVm.arr[4].aa = 8
-      mVm.age = 9999
-    }, 500);
+    // setTimeout(() => {
+    //   // mVm.person.a = 99
+    //   // mVm.arr[3].push('b')
+    //   // mVm.arr[4].aa = 8
+    //   mVm.age = 9999
+    // }, 500);
   </script>
 </body>
 </html>
