@@ -10,7 +10,16 @@ export function initLifeCycle (mVue) {
   mVue.prototype._update = function (vnode) {
     const vm = this;
     const el = vm.$el;
-    vm.$el = patch(el, vnode);
+
+    const preVnode = vm._vnode;
+    vm._vnode = vnode;  // 在实例上保存上一次的虚拟DOM
+    if (!preVnode) {
+      // 首次渲染
+      vm.$el = patch(el, vnode);
+    } else {
+      // 更新
+      vm.$el = patch(preVnode, vnode);
+    }
   }
 
   // _c(tag, props, children)
