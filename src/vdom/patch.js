@@ -82,7 +82,6 @@ export function patch(oldVNode, vnode) {
      * 2. 两个节点是同一个节点，判断tag和key，属性差异，复用老节点
      * 3. 父节点比较完比较儿子
      */
-    console.log(oldVNode, vnode);
     return patchVnode(oldVNode, vnode);
     
   }
@@ -156,8 +155,6 @@ function updateChildren (el, oldChildren, newChildren) {
 
   // 映射表
   let mapKeyToOldIdx;
-
-  console.log(oldStartVnode, newStartVnode, oldEndVnode, newEndVnode)
 
   while (oldStartIndex <= oldEndIndex && newStartIndex <= newEndIndex) {
     if (!oldStartVnode) {

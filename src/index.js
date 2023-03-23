@@ -8,6 +8,7 @@
  * 根据生成的虚拟节点创造真实DOM
  */
 
+import { initGlobalAPI } from "./global-api";
 import { initMixin } from "./init";
 import { stateMixin } from "./state";
 
@@ -17,5 +18,7 @@ function mVue (option) {
 
 initMixin(mVue);
 stateMixin(mVue);
+
+initGlobalAPI(mVue);
 
 export default mVue;

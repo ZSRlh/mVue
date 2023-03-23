@@ -1,7 +1,7 @@
 import Dep from "./observe/dep";
 import { observe } from "./observe/index";
 import Watcher from "./observe/watcher";
-import { isPlainObject, noop, mergeOptions, nextTick } from "./utils";
+import { isPlainObject, noop } from "./utils";
 
 function proxy (target, srcKey, key) {
   Object.defineProperty(target, key, {
@@ -126,13 +126,5 @@ export function stateMixin (mVue) {
     options = options || {};
     options.user = true;  // 表示是用户自己定义的watcher
     const watcher = new Watcher(vm, expOrFn, cb, options, false);
-  }
-
-  mVue.nextTick = nextTick;
-
-  mVue.options = {};
-  mVue.mixin = function (mixin) {
-    this.options = mergeOptions(this.options, mixin);
-    return this;
   }
 }
