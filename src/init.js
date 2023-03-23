@@ -8,7 +8,7 @@ export function initMixin (mVue) {
     const vm = this;
     vm.$options = mergeOptions(
       this.constructor.options,
-      options
+      options || {}
     );
 
     initLifeCycle(mVue);
@@ -16,8 +16,9 @@ export function initMixin (mVue) {
     initState(vm);
     callHook(vm, 'created');
 
-    if (options.el) {
-      vm.$mount(options.el);
+    if (vm.$options.el) {
+      // 不直接取options是由于，组件传参有可能为空(Vue.extend)
+      vm.$mount(vm.$options.el);
 
       /**
        * 下面通过模拟用户使用，说明一个问题：

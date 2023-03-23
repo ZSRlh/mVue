@@ -9,7 +9,7 @@
 <body>
   <script src="./dist/mVue.js"></script>
   <script src="./node_modules/vue/dist/vue.js"></script>
-  <div id="app" style="color: red; background-color: blue;">
+  <div id="app" style="color: red;">
     <div style="color: yellow">
       {{ name }} {{ name }}
     </div>
@@ -18,6 +18,8 @@
     <div>{{ person }}</div>
     <div>{{ fullName }} {{ fullName }}</div>
   </div>
+
+  <div id="root"></div>
   <script>
     const options = {
       el: '#app',
@@ -61,6 +63,7 @@
       //   }
       // }
     }
+    
     // const vm = new Vue(options);
     const mVm = new mVue(options);
 
@@ -73,6 +76,11 @@
       // mVm.arr[4].aa = 8
       mVm.age = 9999
     }, 2000);
+
+    const Sub = mVue.extend({
+      template: `<button>zsr11</button>`
+    });
+    new Sub().$mount("#root");
   </script>
 </body>
 </html>
