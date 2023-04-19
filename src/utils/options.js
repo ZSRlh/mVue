@@ -1,6 +1,23 @@
-import { hasOwn } from ".";
+import { extend, hasOwn } from ".";
 
 const strats = Object.create(null);
+
+const ASSET_TYPES = [
+  'component',
+]
+
+ASSET_TYPES.forEach(asset => {
+  // strats[asset] = mergeAsset;
+  strats[`${asset}s`] = function (p, c) {
+
+    // 继承父亲属性，找的时候会沿着原型链向上找
+    const res = Object.create(p || null);
+    if (c) {
+      return extend(res, c);
+    }
+    return res;
+  }
+})
 
 const LIFECYCLE = [
   'beforeCreate',

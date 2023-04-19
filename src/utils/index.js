@@ -1,6 +1,9 @@
+// Vue的方法
 export * from "./next-tick";
 export * from "./options";
 
+
+// 公共方法
 export function noop (a, b, c) {};
 
 export function def (obj, key, value, enumerable) {
@@ -36,4 +39,11 @@ export function parsePath (path) {
     }
     return obj;
   }
+}
+
+export function extend (_to, _from) {
+  for (const key in _from) {
+    _to[key] = _from[key];
+  }
+  return _to;
 }

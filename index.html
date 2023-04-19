@@ -65,6 +65,9 @@
     }
     
     // const vm = new Vue(options);
+    mVue.component('my-button', {
+      template: `<button>zsr global component</button>`
+    })
     const mVm = new mVue(options);
 
     // console.log('mVue', mVm);
@@ -78,7 +81,12 @@
     }, 2000);
 
     const Sub = mVue.extend({
-      template: `<button>zsr11</button>`
+      template: `<div>组件<my-button /></div>`,
+      components: {
+        'my-button': {
+          template: `<button>zsr inner component</button>`
+        }
+      }
     });
     new Sub().$mount("#root");
   </script>

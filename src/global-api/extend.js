@@ -1,3 +1,5 @@
+import { mergeOptions } from "../utils";
+
 export function initExtend (mVue) {
   mVue.extend = function (extendOptions) {
 
@@ -12,7 +14,9 @@ export function initExtend (mVue) {
     Sub.prototype = Object.create(mVue.prototype);
     // Object.create 继承后，constructor 会变成原型的构造函数，需要重置
     Sub.prototype.constructor = Sub;
-    Sub.options = extendOptions;
+
+    // 为了构建出组件和全局的父子关系(同名组件逐级向上找)，需要合并属性
+    Sub.options = mergeOptions(this.options, extendOptions);
 
     return Sub;
   }
