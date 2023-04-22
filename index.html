@@ -17,6 +17,7 @@
     <div>{{ arr }}</div>
     <div>{{ person }}</div>
     <div>{{ fullName }} {{ fullName }}</div>
+    <div>组件<my-button /></div>
   </div>
 
   <div id="root"></div>
@@ -62,6 +63,11 @@
       //     console.log(newValue, value)
       //   }
       // }
+      components: {
+        'my-button': {
+          template: `<button>zsr inner component</button>`
+        }
+      }
     }
     
     // const vm = new Vue(options);
@@ -80,15 +86,6 @@
       mVm.age = 9999
     }, 2000);
 
-    const Sub = mVue.extend({
-      template: `<div>组件<my-button /></div>`,
-      components: {
-        'my-button': {
-          template: `<button>zsr inner component</button>`
-        }
-      }
-    });
-    new Sub().$mount("#root");
   </script>
 </body>
 </html>

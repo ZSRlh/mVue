@@ -1,6 +1,14 @@
 import { sameVnode } from ".";
 
+/**
+ * 更新DOM样式
+ * @param {*} el DOM元素
+ * @param {*} oldProps 旧参数
+ * @param {*} props 新参数
+ */
 function patchProps (el, oldProps = {}, props = {}) {
+
+  if (!el) return;
 
   // 删除老的里面多余的
   const oldStyle = oldProps.style || {};
@@ -32,6 +40,18 @@ function patchProps (el, oldProps = {}, props = {}) {
   }
 }
 
+/**
+ * 创建自定义组件
+ * @param {*} vnode 虚拟节点 
+ */
+function createComponent (vnode) {
+  let i = vnode.data;
+  if ((i = i.hook) && (i = i.init)) {
+    i(vnode); // 调用hook，初始化组件
+    return true;
+  }
+}
+
 export function createElm (vnode) {
   const {
     tag,
@@ -41,6 +61,11 @@ export function createElm (vnode) {
   } = vnode;
   // 创建完元素后，要把元素实例绑定到虚拟节点上，方便后续操作
   if (typeof tag === 'string') {
+
+    // 创建真实元素 区分是组件还是原生html
+    if (createComponent(vnode)) {
+      return vnode.componentInstance.$el;
+    }
     // 标签
     vnode.el = document.createElement(tag);
     patchProps(vnode.el, {}, data);
@@ -55,6 +80,10 @@ export function createElm (vnode) {
 
 
 export function patch(oldVNode, vnode) {
+  if (!oldVNode) {
+    // patch没有传oldVNode，说明是组件
+    return createElm(vnode);
+  }
 
   const isRealElement = oldVNode.nodeType;
 

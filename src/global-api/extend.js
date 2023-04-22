@@ -2,7 +2,6 @@ import { mergeOptions } from "../utils";
 
 export function initExtend (mVue) {
   mVue.extend = function (extendOptions) {
-
     const Sub = function mVueComponent (options) {
       // 最终使用的组件
       this._init(options);
